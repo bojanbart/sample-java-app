@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface GetClientCollectionUseCase {
 
-    List<Client> getClients();
+    List<Client> getClients(int pageNumber);
 }

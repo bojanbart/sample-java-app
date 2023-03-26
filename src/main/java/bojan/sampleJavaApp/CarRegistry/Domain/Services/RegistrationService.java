@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Locale;
 
 @AllArgsConstructor
 @Service
@@ -37,14 +36,6 @@ public class RegistrationService implements RegisterCarUseCase, UnregisterCarUse
         Car car = carRepository.get(carId);
         Client client = clientRepository.get(clientId);
 
-        if (car == null) {
-            throw new MissingCarException();
-        }
-
-        if (client == null) {
-            throw new MissingClientException();
-        }
-
         if (!registrationRepository.activeRegistrationsForCar(carId).isEmpty()) {
             throw new InvalidRegistrationException("Unable to register car for more then one client at once. Please unregister it first");
         }
@@ -60,19 +51,7 @@ public class RegistrationService implements RegisterCarUseCase, UnregisterCarUse
         Car car = carRepository.get(carId);
         Client client = clientRepository.get(clientId);
 
-        if (car == null) {
-            throw new MissingCarException();
-        }
-
-        if (client == null) {
-            throw new MissingClientException();
-        }
-
         Registration registration = registrationRepository.get(number);
-
-        if (registration == null) {
-            throw new MissingRegistrationException();
-        }
 
         if (registration.getTo() != null) {
             throw new InvalidRegistrationException("Car is already unregistered");

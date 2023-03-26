@@ -18,16 +18,12 @@ public class ClientFetcherService implements GetClientUseCase, GetClientCollecti
 
     @Override
     public Client get(Long id) throws MissingClientException {
-        Client client = clientRepository.get(id);
-
-        if(client == null){
-            throw new MissingClientException();
-        }
-        return client;
+        return clientRepository.get(id);
     }
 
     @Override
-    public List<Client> getClients() {
-        return null;
+    public List<Client> getClients(int pageNumber) {
+        int itemsPerPage = 3;
+        return clientRepository.getClients(pageNumber, itemsPerPage);
     }
 }
