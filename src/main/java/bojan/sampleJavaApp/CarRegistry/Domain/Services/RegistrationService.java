@@ -36,6 +36,10 @@ public class RegistrationService implements RegisterCarUseCase, UnregisterCarUse
         Car car = carRepository.get(carId);
         Client client = clientRepository.get(clientId);
 
+        if (registrationNumberIsPresent(number)) {
+            throw new InvalidRegistrationException("Registration number is already taken");
+        }
+
         if (!registrationRepository.activeRegistrationsForCar(carId).isEmpty()) {
             throw new InvalidRegistrationException("Unable to register car for more then one client at once. Please unregister it first");
         }
@@ -44,6 +48,16 @@ public class RegistrationService implements RegisterCarUseCase, UnregisterCarUse
         Registration newRegistration = new Registration(number, registrationDateTime, car, client);
 
         return registrationRepository.save(newRegistration);
+    }
+
+    private boolean registrationNumberIsPresent(String number) {
+        try {
+            registrationRepository.get(number);
+        } catch (MissingRegistrationException e) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override

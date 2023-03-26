@@ -26,11 +26,11 @@ public class DatabaseRegistrationRepository implements RegistrationRepository {
 
     @Override
     public List<Registration> activeRegistrationsForCar(long carId) {
-        return null;
+        return jpaDataRepository.findAllByCar_IdAndToIsNull(carId);
     }
 
     @Override
     public List<Registration> registrationsForClient(long clientId) {
-        return null;
+        return jpaDataRepository.findAllByClient_Id(clientId);
     }
 }
