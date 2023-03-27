@@ -4,10 +4,7 @@ import bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.DataTransformers.ClientD
 import bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.ValueObjects.ClientValueObject;
 import bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.ValueObjects.NewClientValueObject;
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingClientException;
-import bojan.sampleJavaApp.CarRegistry.Domain.UseCases.AddNewClientUseCase;
-import bojan.sampleJavaApp.CarRegistry.Domain.UseCases.DeleteClientUseCase;
-import bojan.sampleJavaApp.CarRegistry.Domain.UseCases.GetClientCollectionUseCase;
-import bojan.sampleJavaApp.CarRegistry.Domain.UseCases.GetClientUseCase;
+import bojan.sampleJavaApp.CarRegistry.Domain.UseCases.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +22,8 @@ public class ClientController { // todo: add method to update client information
 
     private final AddNewClientUseCase addNewClientUseCase;
 
+    private final UpdateClientUseCase updateClientUseCase;
+
     private final GetClientCollectionUseCase getClientCollectionUseCase;
 
     private final ClientDataTransformer clientDataTransformer = new ClientDataTransformer();
@@ -37,6 +36,11 @@ public class ClientController { // todo: add method to update client information
     @GetMapping(path = "/clients", produces = "application/json")
     public List<ClientValueObject> getManyClients(@RequestParam(value = "page", defaultValue = "0") String page) {
         return getClientCollectionUseCase.getClients(parseInt(page)).stream().map(clientDataTransformer::transform).toList();
+    }
+
+    @PutMapping(path = "/clients/{id}", consumes = "application/json", produces = "application/json")
+    public ClientValueObject updateClient(@PathVariable("id") long id, @RequestBody NewClientValueObject client) throws MissingClientException {
+        return clientDataTransformer.transform(updateClientUseCase.update(id, client.firstname(), client.lastname()));
     }
 
     @PostMapping(path = "/clients", consumes = "application/json", produces = "application/json")
