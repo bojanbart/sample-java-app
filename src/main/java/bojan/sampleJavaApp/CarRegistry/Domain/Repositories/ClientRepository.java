@@ -1,6 +1,6 @@
 package bojan.sampleJavaApp.CarRegistry.Domain.Repositories;
 
-import bojan.sampleJavaApp.CarRegistry.Domain.Entities.Client;
+import bojan.sampleJavaApp.CarRegistry.Domain.Entities.ClientEntity;
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingClientException;
 import lombok.NonNull;
 
@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface ClientRepository {
 
-    Client save(Client client);
+    ClientEntity save(ClientEntity clientEntity);
 
     void delete(long clientId);
 
-    @NonNull Client get(long id) throws MissingClientException;
+    @NonNull ClientEntity get(long id) throws MissingClientException;
 
-    List<Client> getClients(int pageNumber, int itemsPerPage);
+    List<ClientEntity> getClients(int pageNumber, int itemsPerPage);
 }

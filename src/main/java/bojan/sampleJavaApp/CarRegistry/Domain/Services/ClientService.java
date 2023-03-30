@@ -1,6 +1,6 @@
 package bojan.sampleJavaApp.CarRegistry.Domain.Services;
 
-import bojan.sampleJavaApp.CarRegistry.Domain.Entities.Client;
+import bojan.sampleJavaApp.CarRegistry.Domain.Entities.ClientEntity;
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingClientException;
 import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.ClientRepository;
 import bojan.sampleJavaApp.CarRegistry.Domain.UseCases.AddNewClientUseCase;
@@ -21,17 +21,17 @@ public class ClientService implements DeleteClientUseCase, AddNewClientUseCase, 
     }
 
     @Override
-    public Client create(String firstname, String lastname) {
-        return clientRepository.save(new Client(firstname, lastname));
+    public ClientEntity create(String firstname, String lastname) {
+        return clientRepository.save(new ClientEntity(firstname, lastname));
     }
 
     @Override
-    public Client update(long id, String firstname, String lastname) throws MissingClientException {
-        Client client = clientRepository.get(id);
+    public ClientEntity update(long id, String firstname, String lastname) throws MissingClientException {
+        ClientEntity clientEntity = clientRepository.get(id);
 
-        client.setFirstname(firstname);
-        client.setLastname(lastname);
+        clientEntity.setFirstname(firstname);
+        clientEntity.setLastname(lastname);
 
-        return clientRepository.save(client);
+        return clientRepository.save(clientEntity);
     }
 }

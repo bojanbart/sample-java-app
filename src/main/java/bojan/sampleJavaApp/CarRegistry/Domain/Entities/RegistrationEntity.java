@@ -14,13 +14,13 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Table(name = "registration")
-public class Registration {
+public class RegistrationEntity {
 
-    public Registration(String number, LocalDateTime from, Car car, Client client) {
+    public RegistrationEntity(String number, LocalDateTime from, CarEntity carEntity, ClientEntity clientEntity) {
         this.number = number;
         this.from = from;
-        this.car = car;
-        this.client = client;
+        this.carEntity = carEntity;
+        this.clientEntity = clientEntity;
     }
 
     @Setter
@@ -36,12 +36,12 @@ public class Registration {
     @Setter
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name="car_id")
-    private Car car;
+    private CarEntity carEntity;
 
     @Setter
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name="client_id")
-    private Client client;
+    private ClientEntity clientEntity;
 
     public void setFrom(LocalDateTime from) throws InvalidRegistrationTimestampException {
         if (to != null && to.isBefore(from)) {

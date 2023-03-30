@@ -1,8 +1,8 @@
 package bojan.sampleJavaApp.CarRegistry.Domain.Services;
 
-import bojan.sampleJavaApp.CarRegistry.Domain.Entities.Car;
-import bojan.sampleJavaApp.CarRegistry.Domain.Entities.Client;
-import bojan.sampleJavaApp.CarRegistry.Domain.Entities.Registration;
+import bojan.sampleJavaApp.CarRegistry.Domain.Entities.CarEntity;
+import bojan.sampleJavaApp.CarRegistry.Domain.Entities.ClientEntity;
+import bojan.sampleJavaApp.CarRegistry.Domain.Entities.RegistrationEntity;
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.*;
 import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.CarRepository;
 import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.ClientRepository;
@@ -27,14 +27,14 @@ public class RegistrationService implements RegisterCarUseCase, UnregisterCarUse
     private final RegistrationRepository registrationRepository;
 
     @Override
-    public List<Registration> getForClient(long clientId) {
+    public List<RegistrationEntity> getForClient(long clientId) {
         return registrationRepository.registrationsForClient(clientId);
     }
 
     @Override
-    public Registration register(String number, long clientId, long carId) throws MissingClientException, MissingCarException, InvalidRegistrationException {
-        Car car = carRepository.get(carId);
-        Client client = clientRepository.get(clientId);
+    public RegistrationEntity register(String number, long clientId, long carId) throws MissingClientException, MissingCarException, InvalidRegistrationException {
+        CarEntity carEntity = carRepository.get(carId);
+        ClientEntity clientEntity = clientRepository.get(clientId);
 
         if (registrationNumberIsPresent(number)) {
             throw new InvalidRegistrationException("Registration number is already taken");
@@ -45,9 +45,9 @@ public class RegistrationService implements RegisterCarUseCase, UnregisterCarUse
         }
 
         LocalDateTime registrationDateTime = LocalDateTime.now();
-        Registration newRegistration = new Registration(number, registrationDateTime, car, client);
+        RegistrationEntity newRegistrationEntity = new RegistrationEntity(number, registrationDateTime, carEntity, clientEntity);
 
-        return registrationRepository.save(newRegistration);
+        return registrationRepository.save(newRegistrationEntity);
     }
 
     private boolean registrationNumberIsPresent(String number) {
@@ -61,19 +61,19 @@ public class RegistrationService implements RegisterCarUseCase, UnregisterCarUse
     }
 
     @Override
-    public Registration unregister(String number, long clientId, long carId) throws InvalidRegistrationTimestampException, MissingCarException, MissingClientException, MissingRegistrationException, InvalidRegistrationException {
-        Car car = carRepository.get(carId);
-        Client client = clientRepository.get(clientId);
+    public RegistrationEntity unregister(String number, long clientId, long carId) throws InvalidRegistrationTimestampException, MissingCarException, MissingClientException, MissingRegistrationException, InvalidRegistrationException {
+        CarEntity carEntity = carRepository.get(carId);
+        ClientEntity clientEntity = clientRepository.get(clientId);
 
-        Registration registration = registrationRepository.get(number);
+        RegistrationEntity registrationEntity = registrationRepository.get(number);
 
-        if (registration.getTo() != null) {
+        if (registrationEntity.getTo() != null) {
             throw new InvalidRegistrationException("Car is already unregistered");
         }
 
         LocalDateTime unregisterDateTime = LocalDateTime.now();
-        registration.setTo(unregisterDateTime);
+        registrationEntity.setTo(unregisterDateTime);
 
-        return registrationRepository.save(registration);
+        return registrationRepository.save(registrationEntity);
     }
 }

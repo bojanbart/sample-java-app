@@ -1,10 +1,11 @@
 package bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories;
 
-import bojan.sampleJavaApp.CarRegistry.Domain.Entities.Car;
+import bojan.sampleJavaApp.CarRegistry.Domain.Entities.CarEntity;
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingCarException;
 import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import lombok.NonNull;
 
 @Service
 public class DatabaseCarRepository implements CarRepository {
@@ -13,12 +14,12 @@ public class DatabaseCarRepository implements CarRepository {
     private bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories.JpaData.CarRepository jpaDataRepository;
 
     @Override
-    public Car save(Car car) {
-        return jpaDataRepository.save(car);
+    public CarEntity save(CarEntity carEntity) {
+        return jpaDataRepository.save(carEntity);
     }
 
     @Override
-    public Car get(long id) throws MissingCarException {
+    public @NonNull CarEntity get(long id) throws MissingCarException {
         return jpaDataRepository.findById(id).orElseThrow(MissingCarException::new);
     }
 }

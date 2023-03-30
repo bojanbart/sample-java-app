@@ -15,9 +15,9 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "car")
-public class Car {
+public class CarEntity {
 
-    public Car(String model, String brand) {
+    public CarEntity(String model, String brand) {
         this.model = model;
         this.brand = brand;
     }
@@ -30,6 +30,6 @@ public class Car {
 
     private String brand;
 
-    @OneToMany(mappedBy = "car", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
-    private List<Registration> registrations = new ArrayList<Registration>();
+    @OneToMany(mappedBy = "carEntity", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+    private List<RegistrationEntity> registrationEntities = new ArrayList<RegistrationEntity>();
 }

@@ -1,9 +1,10 @@
 package bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories;
 
-import bojan.sampleJavaApp.CarRegistry.Domain.Entities.Registration;
+import bojan.sampleJavaApp.CarRegistry.Domain.Entities.RegistrationEntity;
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingRegistrationException;
 import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.RegistrationRepository;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,22 +16,22 @@ public class DatabaseRegistrationRepository implements RegistrationRepository {
     private final bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories.JpaData.RegistrationRepository jpaDataRepository;
 
     @Override
-    public Registration save(Registration registration) {
-        return jpaDataRepository.save(registration);
+    public RegistrationEntity save(RegistrationEntity registrationEntity) {
+        return jpaDataRepository.save(registrationEntity);
     }
 
     @Override
-    public Registration get(String number) throws MissingRegistrationException {
+    public @NonNull RegistrationEntity get(String number) throws MissingRegistrationException {
         return jpaDataRepository.findById(number).orElseThrow(MissingRegistrationException::new);
     }
 
     @Override
-    public List<Registration> activeRegistrationsForCar(long carId) {
-        return jpaDataRepository.findAllByCar_IdAndToIsNull(carId);
+    public List<RegistrationEntity> activeRegistrationsForCar(long carId) {
+        return jpaDataRepository.findAllByCarEntity_IdAndToIsNull(carId);
     }
 
     @Override
-    public List<Registration> registrationsForClient(long clientId) {
-        return jpaDataRepository.findAllByClient_Id(clientId);
+    public List<RegistrationEntity> registrationsForClient(long clientId) {
+        return jpaDataRepository.findAllByClientEntity_Id(clientId);
     }
 }

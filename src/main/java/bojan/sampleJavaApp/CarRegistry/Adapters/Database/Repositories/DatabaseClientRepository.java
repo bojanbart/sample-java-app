@@ -1,12 +1,11 @@
 package bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories;
 
-import bojan.sampleJavaApp.CarRegistry.Domain.Entities.Client;
+import bojan.sampleJavaApp.CarRegistry.Domain.Entities.ClientEntity;
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingClientException;
 import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.ClientRepository;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +17,8 @@ public class DatabaseClientRepository implements ClientRepository {
     private final bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories.JpaData.ClientRepository jpaDataRepository;
 
     @Override
-    public Client save(Client client) {
-        return jpaDataRepository.save(client);
+    public ClientEntity save(ClientEntity clientEntity) {
+        return jpaDataRepository.save(clientEntity);
     }
 
     @Override
@@ -28,12 +27,12 @@ public class DatabaseClientRepository implements ClientRepository {
     }
 
     @Override
-    public Client get(long id) throws MissingClientException {
+    public @NonNull ClientEntity get(long id) throws MissingClientException {
         return jpaDataRepository.findById(id).orElseThrow(MissingClientException::new);
     }
 
     @Override
-    public List<Client> getClients(int pageNumber, int itemsPerPage) {
+    public List<ClientEntity> getClients(int pageNumber, int itemsPerPage) {
         return jpaDataRepository.findAll(PageRequest.of(pageNumber, itemsPerPage)).getContent();
     }
 }

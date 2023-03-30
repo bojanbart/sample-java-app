@@ -1,11 +1,11 @@
 package bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.DataTransformers;
 
-import bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.ValueObjects.CarValueObject;
-import bojan.sampleJavaApp.CarRegistry.Domain.Entities.Car;
+import bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.DTO.Car;
+import bojan.sampleJavaApp.CarRegistry.Domain.Entities.CarEntity;
 
 public class CarDataTransformer {
 
-    public CarValueObject transform(Car car){
-        return new CarValueObject(car.getId(), car.getModel(), car.getBrand());
+    public Car transform(CarEntity carEntity){
+        return new Car(carEntity.getId(), carEntity.getModel(), carEntity.getBrand());
     }
 }
