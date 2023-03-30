@@ -1,4 +1,17 @@
 package bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.DTO;
 
-public record NewCar(String model, String brand) {
+import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
+import lombok.experimental.Accessors;
+
+@Data
+@Getter()
+@Setter()
+public class NewCar {
+
+    @NotEmpty(message = "Model is required.")
+    private String model;
+
+    @NotEmpty(message = "Brand is required.")
+    private String brand;
 }

@@ -7,7 +7,10 @@ import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.*;
 import bojan.sampleJavaApp.CarRegistry.Domain.UseCases.GetRegistrationsForClientUseCase;
 import bojan.sampleJavaApp.CarRegistry.Domain.UseCases.RegisterCarUseCase;
 import bojan.sampleJavaApp.CarRegistry.Domain.UseCases.UnregisterCarUseCase;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +28,8 @@ public class ClientRegistrationController {
     private final RegistrationDataTransformer registrationDataTransformer = new RegistrationDataTransformer();
 
     @PostMapping(path = "/clients/{id}/registrations", consumes = "application/json", produces = "application/json")
-    public Registration create(@PathVariable("id") long clientId, @RequestBody NewRegistration registration) throws InvalidRegistrationException, MissingClientException, MissingCarException {
-        return registrationDataTransformer.transform(registerCarUseCase.register(registration.number(), clientId, registration.carId()));
+    public ResponseEntity<Registration> create(@PathVariable("id") long clientId, @Valid @RequestBody NewRegistration registration) throws InvalidRegistrationException, MissingClientException, MissingCarException {
+        return new ResponseEntity<>(registrationDataTransformer.transform(registerCarUseCase.register(registration.getNumber(), clientId, registration.getCarId())), HttpStatus.CREATED);
     }
 
     @PatchMapping(path = "/clients/{id}/registrations", consumes = "application/json", produces = "application/json")

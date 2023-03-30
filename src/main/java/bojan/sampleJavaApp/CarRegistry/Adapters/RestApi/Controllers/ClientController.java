@@ -5,7 +5,10 @@ import bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.DTO.Client;
 import bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.DTO.NewClient;
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingClientException;
 import bojan.sampleJavaApp.CarRegistry.Domain.UseCases.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,13 +42,13 @@ public class ClientController { // todo: add method to update client information
     }
 
     @PutMapping(path = "/clients/{id}", consumes = "application/json", produces = "application/json")
-    public Client updateClient(@PathVariable("id") long id, @RequestBody NewClient client) throws MissingClientException {
-        return clientDataTransformer.transform(updateClientUseCase.update(id, client.firstname(), client.lastname()));
+    public Client updateClient(@PathVariable("id") long id, @Valid @RequestBody NewClient client) throws MissingClientException {
+        return clientDataTransformer.transform(updateClientUseCase.update(id, client.getFirstname(), client.getLastname()));
     }
 
     @PostMapping(path = "/clients", consumes = "application/json", produces = "application/json")
-    public Client createClient(@RequestBody NewClient client) {
-        return clientDataTransformer.transform(addNewClientUseCase.create(client.firstname(), client.lastname()));
+    public ResponseEntity<Client> createClient(@Valid @RequestBody NewClient client) {
+        return new ResponseEntity<>(clientDataTransformer.transform(addNewClientUseCase.create(client.getFirstname(), client.getLastname())), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/clients/{id}")
