@@ -1,6 +1,7 @@
 package bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories.JpaData;
 
-import bojan.sampleJavaApp.CarRegistry.Domain.Entities.ClientEntity;
+
+import bojan.sampleJavaApp.CarRegistry.Adapters.Database.Entities.ClientEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

@@ -1,5 +1,6 @@
 package bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories;
 
+import bojan.sampleJavaApp.CarRegistry.Adapters.Database.DataTransformers.ClientDataTransformer;
 import bojan.sampleJavaApp.CarRegistry.Domain.Entities.ClientEntity;
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingClientException;
 import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.ClientRepository;
@@ -16,9 +17,11 @@ public class DatabaseClientRepository implements ClientRepository {
 
     private final bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories.JpaData.ClientRepository jpaDataRepository;
 
+    private final ClientDataTransformer dataTransformer;
+
     @Override
     public ClientEntity save(ClientEntity clientEntity) {
-        return jpaDataRepository.save(clientEntity);
+        return dataTransformer.toDomain(jpaDataRepository.save(dataTransformer.fromDomain(clientEntity)));
     }
 
     @Override
@@ -28,11 +31,13 @@ public class DatabaseClientRepository implements ClientRepository {
 
     @Override
     public @NonNull ClientEntity get(long id) throws MissingClientException {
-        return jpaDataRepository.findById(id).orElseThrow(MissingClientException::new);
+        bojan.sampleJavaApp.CarRegistry.Adapters.Database.Entities.ClientEntity dbClient = jpaDataRepository.findById(id).orElseThrow(MissingClientException::new);
+
+        return dataTransformer.toDomain(dbClient);
     }
 
     @Override
     public List<ClientEntity> getClients(int pageNumber, int itemsPerPage) {
-        return jpaDataRepository.findAll(PageRequest.of(pageNumber, itemsPerPage)).getContent();
+        return jpaDataRepository.findAll(PageRequest.of(pageNumber, itemsPerPage)).map(dataTransformer::toDomain).toList();
     }
 }

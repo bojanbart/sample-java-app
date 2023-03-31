@@ -11,7 +11,7 @@ public interface RegistrationRepository {
     RegistrationEntity save(RegistrationEntity registrationEntity);
     @NonNull RegistrationEntity get(String number) throws MissingRegistrationException;
 
-    List<RegistrationEntity> activeRegistrationsForCar(long carId);
+    @NonNull List<RegistrationEntity> activeRegistrationsForCar(long carId);
 
-    List<RegistrationEntity> registrationsForClient(long clientId);
+    @NonNull List<RegistrationEntity> registrationsForClient(long clientId);
 }

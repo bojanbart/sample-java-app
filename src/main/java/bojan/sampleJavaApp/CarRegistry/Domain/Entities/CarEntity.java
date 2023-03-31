@@ -1,6 +1,5 @@
 package bojan.sampleJavaApp.CarRegistry.Domain.Entities;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
-@Table(name = "car")
 public class CarEntity {
 
     public CarEntity(String model, String brand) {
@@ -22,14 +19,9 @@ public class CarEntity {
         this.brand = brand;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
 
     private String model;
 
     private String brand;
-
-    @OneToMany(mappedBy = "carEntity", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
-    private List<RegistrationEntity> registrationEntities = new ArrayList<RegistrationEntity>();
 }

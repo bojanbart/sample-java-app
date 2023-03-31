@@ -128,9 +128,9 @@ public class RegistrationEntityServiceTest {
     @Test
     public void shouldNotRegisterSameNumberTwice() {
         // given
-        CarEntity carEntity1 = new CarEntity(1L, "Nissan", "Micra", null);
-        CarEntity carEntity2 = new CarEntity(1L, "Opel", "Astra", null);
-        ClientEntity clientEntity1 = new ClientEntity(1L, "Czesław", "Niemen", null);
+        CarEntity carEntity1 = new CarEntity(1L, "Nissan", "Micra");
+        CarEntity carEntity2 = new CarEntity(1L, "Opel", "Astra");
+        ClientEntity clientEntity1 = new ClientEntity(1L, "Czesław", "Niemen");
 
         carRepository.save(carEntity1);
         carRepository.save(carEntity2);
@@ -145,8 +145,8 @@ public class RegistrationEntityServiceTest {
     @Test
     public void shouldNotRegisterSameCarTwice() {
         // given
-        CarEntity carEntity1 = new CarEntity(1L, "Nissan", "Micra", null);
-        ClientEntity clientEntity1 = new ClientEntity(1L, "Czesław", "Niemen", null);
+        CarEntity carEntity1 = new CarEntity(1L, "Nissan", "Micra");
+        ClientEntity clientEntity1 = new ClientEntity(1L, "Czesław", "Niemen");
 
         carRepository.save(carEntity1);
         clientRepository.save(clientEntity1);
@@ -160,8 +160,8 @@ public class RegistrationEntityServiceTest {
     @Test
     public void shouldRegisterCar() {
         // given
-        CarEntity carEntity1 = new CarEntity(1L, "Nissan", "Micra", null);
-        ClientEntity clientEntity1 = new ClientEntity(1L, "Czesław", "Niemen", null);
+        CarEntity carEntity1 = new CarEntity(1L, "Nissan", "Micra");
+        ClientEntity clientEntity1 = new ClientEntity(1L, "Czesław", "Niemen");
 
         carRepository.save(carEntity1);
         clientRepository.save(clientEntity1);
