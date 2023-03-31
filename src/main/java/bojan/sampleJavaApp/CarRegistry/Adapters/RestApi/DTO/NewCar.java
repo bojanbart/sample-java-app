@@ -2,11 +2,8 @@ package bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.DTO;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
-import lombok.experimental.Accessors;
 
 @Data
-@Getter()
-@Setter()
 public class NewCar {
 
     @NotEmpty(message = "Model is required.")
