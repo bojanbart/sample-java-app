@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name = "registration")
 public class RegistrationEntity {
@@ -23,7 +24,6 @@ public class RegistrationEntity {
         this.clientEntity = clientEntity;
     }
 
-    @Setter
     @Id
     @Column(name = "registration_number")
     private String number;
@@ -33,33 +33,11 @@ public class RegistrationEntity {
 
     @Column(name = "registration_to")
     private LocalDateTime to;
-    @Setter
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name="car_id")
     private CarEntity carEntity;
 
-    @Setter
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name="client_id")
     private ClientEntity clientEntity;
-
-    public void setFrom(LocalDateTime from) throws InvalidRegistrationTimestampException {
-        if (to != null && to.isBefore(from)) {
-            throw new InvalidRegistrationTimestampException("Registration from cannot be greater than to");
-        }
-
-        this.from = from;
-    }
-
-    public void setTo(LocalDateTime to) throws InvalidRegistrationTimestampException {
-        if (from == null) {
-            throw new InvalidRegistrationTimestampException("Provide registration from timestamp first");
-        }
-
-        if (to.isBefore(from)) {
-            throw new InvalidRegistrationTimestampException("Registration to cannot be lesser than from");
-        }
-
-        this.to = to;
-    }
 }
