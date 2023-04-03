@@ -18,7 +18,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class RegistrationService implements RegisterCarUseCase, UnregisterCarUseCase, GetRegistrationsForClientUseCase {
+public class RegistrationService implements RegisterCarUseCase, UnregisterCarUseCase {
 
     private final CarRepository carRepository;
 
@@ -26,10 +26,7 @@ public class RegistrationService implements RegisterCarUseCase, UnregisterCarUse
 
     private final RegistrationRepository registrationRepository;
 
-    @Override
-    public List<RegistrationEntity> getForClient(long clientId) {
-        return registrationRepository.registrationsForClient(clientId);
-    }
+
 
     @Override
     public RegistrationEntity register(String number, long clientId, long carId) throws MissingClientException, MissingCarException, InvalidRegistrationException {
@@ -61,11 +58,14 @@ public class RegistrationService implements RegisterCarUseCase, UnregisterCarUse
     }
 
     @Override
-    public RegistrationEntity unregister(String number, long clientId, long carId) throws InvalidRegistrationTimestampException, MissingCarException, MissingClientException, MissingRegistrationException, InvalidRegistrationException {
-        CarEntity carEntity = carRepository.get(carId);
+    public RegistrationEntity unregister(String number, long clientId) throws MissingClientException, MissingRegistrationException, InvalidRegistrationException {
         ClientEntity clientEntity = clientRepository.get(clientId);
 
         RegistrationEntity registrationEntity = registrationRepository.get(number);
+
+        if (registrationEntity.getClientEntity().getId() != clientId){
+            throw new InvalidRegistrationException("Registration is not made by given client");
+        }
 
         if (registrationEntity.getTo() != null) {
             throw new InvalidRegistrationException("Car is already unregistered");

@@ -34,7 +34,7 @@ public class ClientRegistrationController {
 
     @PatchMapping(path = "/clients/{id}/registrations", consumes = "application/json", produces = "application/json")
     public Registration update(@PathVariable("id") long clientId, @RequestBody Registration registration) throws InvalidRegistrationException, MissingCarException, MissingClientException, MissingRegistrationException, InvalidRegistrationTimestampException {
-        return registrationDataTransformer.transform(unregisterCarUseCase.unregister(registration.number(), clientId, registration.carId()));
+        return registrationDataTransformer.transform(unregisterCarUseCase.unregister(registration.number(), clientId));
     }
 
     @GetMapping(path = "/clients/{id}/registrations", produces = "application/json")
