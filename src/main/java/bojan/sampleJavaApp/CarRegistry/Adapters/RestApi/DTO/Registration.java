@@ -1,4 +1,6 @@
 package bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.DTO;
 
-public record Registration(String number, String from, String to, long carId, String carModel, String carBrand) {
+import java.util.UUID;
+
+public record Registration(String number, String from, String to, UUID carId, String carModel, String carBrand) {
 }

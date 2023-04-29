@@ -5,7 +5,9 @@ import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.InvalidRegistrationExce
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingCarException;
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingClientException;
 
+import java.util.UUID;
+
 public interface RegisterCarUseCase {
 
-    RegistrationEntity register(String number, long clientId, long carId) throws MissingClientException, MissingCarException, InvalidRegistrationException;
+    RegistrationEntity register(String number, UUID clientId, UUID carId) throws MissingClientException, MissingCarException, InvalidRegistrationException;
 }

@@ -5,14 +5,15 @@ import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingClientException;
 import lombok.NonNull;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ClientRepository {
 
     ClientEntity save(ClientEntity clientEntity);
 
-    void delete(long clientId);
+    void delete(UUID clientId);
 
-    @NonNull ClientEntity get(long id) throws MissingClientException;
+    @NonNull ClientEntity get(UUID id) throws MissingClientException;
 
     List<ClientEntity> getClients(int pageNumber, int itemsPerPage);
 }

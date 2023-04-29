@@ -1,5 +1,6 @@
 package bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.Controllers;
 
+import bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.DTO.RegistrationForUpdate;
 import bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.DataTransformers.RegistrationDataTransformer;
 import bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.DTO.NewRegistration;
 import bojan.sampleJavaApp.CarRegistry.Adapters.RestApi.DTO.Registration;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -28,17 +30,17 @@ public class ClientRegistrationController {
     private final RegistrationDataTransformer registrationDataTransformer = new RegistrationDataTransformer();
 
     @PostMapping(path = "/clients/{id}/registrations", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Registration> create(@PathVariable("id") long clientId, @Valid @RequestBody NewRegistration registration) throws InvalidRegistrationException, MissingClientException, MissingCarException {
+    public ResponseEntity<Registration> create(@PathVariable("id") UUID clientId, @Valid @RequestBody NewRegistration registration) throws InvalidRegistrationException, MissingClientException, MissingCarException {
         return new ResponseEntity<>(registrationDataTransformer.transform(registerCarUseCase.register(registration.getNumber(), clientId, registration.getCarId())), HttpStatus.CREATED);
     }
 
     @PatchMapping(path = "/clients/{id}/registrations", consumes = "application/json", produces = "application/json")
-    public Registration update(@PathVariable("id") long clientId, @RequestBody Registration registration) throws InvalidRegistrationException, MissingCarException, MissingClientException, MissingRegistrationException, InvalidRegistrationTimestampException {
-        return registrationDataTransformer.transform(unregisterCarUseCase.unregister(registration.number(), clientId));
+    public Registration update(@PathVariable("id") UUID clientId, @RequestBody RegistrationForUpdate registration) throws InvalidRegistrationException, MissingCarException, MissingClientException, MissingRegistrationException, InvalidRegistrationTimestampException {
+        return registrationDataTransformer.transform(unregisterCarUseCase.unregister(registration.getNumber(), clientId));
     }
 
     @GetMapping(path = "/clients/{id}/registrations", produces = "application/json")
-    public List<Registration> getRegistrations(@PathVariable("id") long clientId) {
+    public List<Registration> getRegistrations(@PathVariable("id") UUID clientId) {
         return getRegistrationsForClientUseCase.getForClient(clientId).stream().map(registrationDataTransformer::transform).toList();
     }
 }

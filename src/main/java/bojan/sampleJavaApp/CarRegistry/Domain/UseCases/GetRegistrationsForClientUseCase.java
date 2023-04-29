@@ -3,8 +3,9 @@ package bojan.sampleJavaApp.CarRegistry.Domain.UseCases;
 import bojan.sampleJavaApp.CarRegistry.Domain.Entities.RegistrationEntity;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface GetRegistrationsForClientUseCase {
 
-    List<RegistrationEntity> getForClient(long clientId);
+    List<RegistrationEntity> getForClient(UUID clientId);
 }

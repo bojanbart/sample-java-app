@@ -29,7 +29,7 @@ public class RegistrationEntityServiceTest {
     @BeforeEach
     void setUp() {
         carRepository = new CarRepository() {
-            private final Map<Long, CarEntity> data = new HashMap<Long, CarEntity>();
+            private final Map<UUID, CarEntity> data = new HashMap<>();
 
             @Override
             public CarEntity save(CarEntity carEntity) {
@@ -39,7 +39,7 @@ public class RegistrationEntityServiceTest {
             }
 
             @Override
-            public @NonNull CarEntity get(long id) throws MissingCarException {
+            public @NonNull CarEntity get(UUID id) throws MissingCarException {
                 CarEntity carEntity = data.get(id);
 
                 if (carEntity == null) {
@@ -52,7 +52,7 @@ public class RegistrationEntityServiceTest {
 
         clientRepository = new ClientRepository() {
 
-            private final Map<Long, ClientEntity> data = new HashMap<Long, ClientEntity>();
+            private final Map<UUID, ClientEntity> data = new HashMap<>();
 
             @Override
             public ClientEntity save(ClientEntity clientEntity) {
@@ -61,12 +61,12 @@ public class RegistrationEntityServiceTest {
             }
 
             @Override
-            public void delete(long clientId) {
+            public void delete(UUID clientId) {
                 // pass
             }
 
             @Override
-            public @NonNull ClientEntity get(long id) throws MissingClientException {
+            public @NonNull ClientEntity get(UUID id) throws MissingClientException {
                 ClientEntity clientEntity = data.get(id);
 
                 if (clientEntity == null) {
@@ -104,7 +104,7 @@ public class RegistrationEntityServiceTest {
             }
 
             @Override
-            public List<RegistrationEntity> activeRegistrationsForCar(long carId) {
+            public @NonNull List<RegistrationEntity> activeRegistrationsForCar(UUID carId) {
                 List<RegistrationEntity> result = new ArrayList<RegistrationEntity>();
 
                 data.forEach((k, v) -> {
@@ -117,7 +117,7 @@ public class RegistrationEntityServiceTest {
             }
 
             @Override
-            public List<RegistrationEntity> registrationsForClient(long clientId) {
+            public @NonNull List<RegistrationEntity> registrationsForClient(UUID clientId) {
                 return null;
             }
         };
@@ -128,9 +128,9 @@ public class RegistrationEntityServiceTest {
     @Test
     public void shouldNotRegisterSameNumberTwice() {
         // given
-        CarEntity carEntity1 = new CarEntity(1L, "Nissan", "Micra");
-        CarEntity carEntity2 = new CarEntity(1L, "Opel", "Astra");
-        ClientEntity clientEntity1 = new ClientEntity(1L, "Czesław", "Niemen");
+        CarEntity carEntity1 = new CarEntity(UUID.randomUUID(), "Nissan", "Micra");
+        CarEntity carEntity2 = new CarEntity(UUID.randomUUID(), "Opel", "Astra");
+        ClientEntity clientEntity1 = new ClientEntity(UUID.randomUUID(), "Czesław", "Niemen");
 
         carRepository.save(carEntity1);
         carRepository.save(carEntity2);
@@ -145,8 +145,8 @@ public class RegistrationEntityServiceTest {
     @Test
     public void shouldNotRegisterSameCarTwice() {
         // given
-        CarEntity carEntity1 = new CarEntity(1L, "Nissan", "Micra");
-        ClientEntity clientEntity1 = new ClientEntity(1L, "Czesław", "Niemen");
+        CarEntity carEntity1 = new CarEntity(UUID.randomUUID(), "Nissan", "Micra");
+        ClientEntity clientEntity1 = new ClientEntity(UUID.randomUUID(), "Czesław", "Niemen");
 
         carRepository.save(carEntity1);
         clientRepository.save(clientEntity1);
@@ -160,8 +160,8 @@ public class RegistrationEntityServiceTest {
     @Test
     public void shouldRegisterCar() {
         // given
-        CarEntity carEntity1 = new CarEntity(1L, "Nissan", "Micra");
-        ClientEntity clientEntity1 = new ClientEntity(1L, "Czesław", "Niemen");
+        CarEntity carEntity1 = new CarEntity(UUID.randomUUID(), "Nissan", "Micra");
+        ClientEntity clientEntity1 = new ClientEntity(UUID.randomUUID(), "Czesław", "Niemen");
 
         carRepository.save(carEntity1);
         clientRepository.save(clientEntity1);

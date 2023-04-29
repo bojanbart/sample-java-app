@@ -7,7 +7,6 @@ import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.*;
 import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.CarRepository;
 import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.ClientRepository;
 import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.RegistrationRepository;
-import bojan.sampleJavaApp.CarRegistry.Domain.UseCases.GetRegistrationsForClientUseCase;
 import bojan.sampleJavaApp.CarRegistry.Domain.UseCases.RegisterCarUseCase;
 import bojan.sampleJavaApp.CarRegistry.Domain.UseCases.UnregisterCarUseCase;
 import lombok.AllArgsConstructor;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Service
@@ -29,7 +29,7 @@ public class RegistrationService implements RegisterCarUseCase, UnregisterCarUse
 
 
     @Override
-    public RegistrationEntity register(String number, long clientId, long carId) throws MissingClientException, MissingCarException, InvalidRegistrationException {
+    public RegistrationEntity register(String number, UUID clientId, UUID carId) throws MissingClientException, MissingCarException, InvalidRegistrationException {
         CarEntity carEntity = carRepository.get(carId);
         ClientEntity clientEntity = clientRepository.get(clientId);
 
@@ -58,7 +58,7 @@ public class RegistrationService implements RegisterCarUseCase, UnregisterCarUse
     }
 
     @Override
-    public RegistrationEntity unregister(String number, long clientId) throws MissingClientException, MissingRegistrationException, InvalidRegistrationException {
+    public RegistrationEntity unregister(String number, UUID clientId) throws MissingClientException, MissingRegistrationException, InvalidRegistrationException {
         ClientEntity clientEntity = clientRepository.get(clientId);
 
         RegistrationEntity registrationEntity = registrationRepository.get(number);

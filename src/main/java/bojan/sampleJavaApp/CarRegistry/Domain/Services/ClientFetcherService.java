@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class ClientFetcherService implements GetClientUseCase, GetClientCollecti
     private final ClientRepository clientRepository;
 
     @Override
-    public ClientEntity get(Long id) throws MissingClientException {
+    public ClientEntity get(UUID id) throws MissingClientException {
         return clientRepository.get(id);
     }
 

@@ -5,13 +5,14 @@ import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingRegistrationExce
 import lombok.NonNull;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface RegistrationRepository {
 
     RegistrationEntity save(RegistrationEntity registrationEntity);
     @NonNull RegistrationEntity get(String number) throws MissingRegistrationException;
 
-    @NonNull List<RegistrationEntity> activeRegistrationsForCar(long carId);
+    @NonNull List<RegistrationEntity> activeRegistrationsForCar(UUID carId);
 
-    @NonNull List<RegistrationEntity> registrationsForClient(long clientId);
+    @NonNull List<RegistrationEntity> registrationsForClient(UUID clientId);
 }

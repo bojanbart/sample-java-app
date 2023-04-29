@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Service
@@ -15,7 +16,7 @@ public class RegistrationFetcherService implements GetRegistrationsForClientUseC
     private final RegistrationRepository registrationRepository;
 
     @Override
-    public List<RegistrationEntity> getForClient(long clientId) {
+    public List<RegistrationEntity> getForClient(UUID clientId) {
         return registrationRepository.registrationsForClient(clientId);
     }
 }

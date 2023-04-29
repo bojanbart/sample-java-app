@@ -1,6 +1,7 @@
 package bojan.sampleJavaApp.CarRegistry.Domain.Entities;
 
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.InvalidRegistrationTimestampException;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Entity
+@Table(name = "registration")
 public class RegistrationEntity {
 
     public RegistrationEntity(String number, LocalDateTime from, CarEntity carEntity, ClientEntity clientEntity) {
@@ -20,15 +23,24 @@ public class RegistrationEntity {
         this.clientEntity = clientEntity;
     }
 
+    @Id
+    @Column(name = "registration_number")
     @Setter
     private String number;
 
+    @Column(name = "registration_from")
     private LocalDateTime from;
 
+    @Column(name = "registration_to")
     private LocalDateTime to;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @JoinColumn(name="car_id")
     @Setter
     private CarEntity carEntity;
 
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @JoinColumn(name="client_id")
     @Setter
     private ClientEntity clientEntity;
 

@@ -1,6 +1,5 @@
 package bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories;
 
-import bojan.sampleJavaApp.CarRegistry.Adapters.Database.DataTransformers.ClientDataTransformer;
 import bojan.sampleJavaApp.CarRegistry.Domain.Entities.ClientEntity;
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingClientException;
 import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.ClientRepository;
@@ -10,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -17,27 +17,23 @@ public class DatabaseClientRepository implements ClientRepository {
 
     private final bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories.JpaData.ClientRepository jpaDataRepository;
 
-    private final ClientDataTransformer dataTransformer;
-
     @Override
     public ClientEntity save(ClientEntity clientEntity) {
-        return dataTransformer.toDomain(jpaDataRepository.save(dataTransformer.fromDomain(clientEntity)));
+        return jpaDataRepository.save(clientEntity);
     }
 
     @Override
-    public void delete(long clientId) {
+    public void delete(UUID clientId) {
         jpaDataRepository.deleteById(clientId);
     }
 
     @Override
-    public @NonNull ClientEntity get(long id) throws MissingClientException {
-        bojan.sampleJavaApp.CarRegistry.Adapters.Database.Entities.ClientEntity dbClient = jpaDataRepository.findById(id).orElseThrow(MissingClientException::new);
-
-        return dataTransformer.toDomain(dbClient);
+    public @NonNull ClientEntity get(UUID id) throws MissingClientException {
+        return jpaDataRepository.findById(id).orElseThrow(MissingClientException::new);
     }
 
     @Override
     public List<ClientEntity> getClients(int pageNumber, int itemsPerPage) {
-        return jpaDataRepository.findAll(PageRequest.of(pageNumber, itemsPerPage)).map(dataTransformer::toDomain).toList();
+        return jpaDataRepository.findAll(PageRequest.of(pageNumber, itemsPerPage)).toList();
     }
 }

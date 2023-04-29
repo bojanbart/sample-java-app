@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 import static java.lang.Integer.parseInt;
 
@@ -32,7 +33,7 @@ public class ClientController { // todo: add method to update client information
     private final ClientDataTransformer clientDataTransformer = new ClientDataTransformer();
 
     @GetMapping(path = "/clients/{id}", produces = "application/json")
-    public Client getSingleClient(@PathVariable("id") long id) throws MissingClientException {
+    public Client getSingleClient(@PathVariable("id") UUID id) throws MissingClientException {
         return clientDataTransformer.transform(getClientUseCase.get(id));
     }
 
@@ -42,7 +43,7 @@ public class ClientController { // todo: add method to update client information
     }
 
     @PutMapping(path = "/clients/{id}", consumes = "application/json", produces = "application/json")
-    public Client updateClient(@PathVariable("id") long id, @Valid @RequestBody NewClient client) throws MissingClientException {
+    public Client updateClient(@PathVariable("id") UUID id, @Valid @RequestBody NewClient client) throws MissingClientException {
         return clientDataTransformer.transform(updateClientUseCase.update(id, client.getFirstname(), client.getLastname()));
     }
 
@@ -52,7 +53,7 @@ public class ClientController { // todo: add method to update client information
     }
 
     @DeleteMapping(path = "/clients/{id}")
-    public void deleteClient(@PathVariable("id") long id) {
+    public void deleteClient(@PathVariable("id") UUID id) {
         deleteClientUseCase.delete(id);
     }
 }
