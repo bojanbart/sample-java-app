@@ -2,6 +2,8 @@ package bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories;
 
 import bojan.sampleJavaApp.CarRegistry.Domain.Entities.RegistrationEntity;
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingRegistrationException;
+import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.RegistrationCarRepository;
+import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.RegistrationClientRepository;
 import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.RegistrationRepository;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -12,7 +14,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class DatabaseRegistrationRepository implements RegistrationRepository {
+public class DatabaseRegistrationRepository implements RegistrationRepository, RegistrationCarRepository, RegistrationClientRepository {
 
     private final bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories.JpaData.RegistrationRepository jpaDataRepository;
 

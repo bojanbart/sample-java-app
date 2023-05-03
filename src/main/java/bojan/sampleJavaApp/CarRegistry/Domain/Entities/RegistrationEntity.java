@@ -25,7 +25,6 @@ public class RegistrationEntity {
 
     @Id
     @Column(name = "registration_number")
-    @Setter
     private String number;
 
     @Column(name = "registration_from")
@@ -36,12 +35,10 @@ public class RegistrationEntity {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name="car_id")
-    @Setter
     private CarEntity carEntity;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name="client_id")
-    @Setter
     private ClientEntity clientEntity;
 
     public void setFrom(LocalDateTime from) throws InvalidRegistrationTimestampException {
@@ -62,5 +59,10 @@ public class RegistrationEntity {
         }
 
         this.to = to;
+    }
+
+    public void unregister() throws InvalidRegistrationTimestampException {
+        LocalDateTime unregisterDateTime = LocalDateTime.now();
+        this.setTo(unregisterDateTime);
     }
 }
