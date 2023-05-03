@@ -2,6 +2,7 @@ package bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories;
 
 import bojan.sampleJavaApp.CarRegistry.Domain.Entities.ClientEntity;
 import bojan.sampleJavaApp.CarRegistry.Domain.Exceptions.MissingClientException;
+import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.ClientListRepository;
 import bojan.sampleJavaApp.CarRegistry.Domain.Repositories.ClientRepository;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class DatabaseClientRepository implements ClientRepository {
+public class DatabaseClientRepository implements ClientRepository, ClientListRepository {
 
     private final bojan.sampleJavaApp.CarRegistry.Adapters.Database.Repositories.JpaData.ClientRepository jpaDataRepository;
 

@@ -17,11 +17,6 @@ import java.util.UUID;
 @Table(name = "car")
 public class CarEntity {
 
-    public CarEntity(String model, String brand) {
-        this.model = model;
-        this.brand = brand;
-    }
-
     public CarEntity(UUID id, String model, String brand) {
         this.id = id;
         this.model = model;
@@ -30,7 +25,7 @@ public class CarEntity {
 
     @Id
     @Column(name = "id", length = 16, unique = true, nullable = false)
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     private String model;
 

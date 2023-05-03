@@ -75,11 +75,6 @@ public class RegistrationEntityServiceTest {
 
                 return clientEntity;
             }
-
-            @Override
-            public List<ClientEntity> getClients(int pageNumber, int itemsPerPage) {
-                return data.values().stream().toList();
-            }
         };
 
         registrationRepository = new RegistrationRepository() {

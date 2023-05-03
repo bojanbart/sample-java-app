@@ -11,15 +11,9 @@ import java.util.UUID;
 
 @NoArgsConstructor
 @Getter
-@Setter
 @Entity
 @Table(name = "client")
 public class ClientEntity {
-
-    public ClientEntity(String firstname, String lastname) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
 
     public ClientEntity(UUID id, String firstname, String lastname) {
         this.id = id;
@@ -29,11 +23,16 @@ public class ClientEntity {
 
     @Id
     @Column(name = "id", length = 16, unique = true, nullable = false)
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     private String firstname;
 
     private String lastname;
+
+    public void update(String firstname, String lastname){
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
 
     @OneToMany(mappedBy = "clientEntity", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<RegistrationEntity> registrationEntities = new ArrayList<RegistrationEntity>();
